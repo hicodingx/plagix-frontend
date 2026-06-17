@@ -33,8 +33,6 @@ async function getSources(): Promise<ScrapingSource[]> {
 export default async function DashboardPage() {
   const sources = await getSources(); // ici on prend la liste des sources
 
-  console.log(sources)
-
   return (
     <div className="">
       {/* Un header */}
