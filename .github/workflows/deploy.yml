@@ -47,8 +47,8 @@ jobs:
             echo "Node: $(node -v)"
             echo "NPM: $(npm -v)"
 
-            # Dossier créé par CloudPanel pour pole-g-plagix.com
-            APP_DIR="/home/pole-g-plagix/htdocs/pole-g-plagix.com"
+            # Dossier créé par CloudPanel pour pole-g-plagix.org
+            APP_DIR="/home/pole-g-plagix/htdocs/plagix.pole-g.org"
             SHARED_DIR="/home/pole-g-plagix/shared"
             REPO="git@github.com:hicodingx/plagix-frontend.git"
             BRANCH="main"
