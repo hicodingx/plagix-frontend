@@ -53,7 +53,6 @@ jobs:
             REPO="git@github.com:hicodingx/plagix-frontend.git"
             BRANCH="main"
             APP_NAME="pole-g-plagix"
-            PORT=3001
 
             cd "$APP_DIR"
 
@@ -70,12 +69,14 @@ jobs:
               git clean -fd
             fi
 
-            # Gestion du fichier .env.production de Next.js
-            if [ -f "$SHARED_DIR/.env.production" ]; then
-              echo "Injecting production .env.production file"
-              cp "$SHARED_DIR/.env.production" "$APP_DIR/.env.production"
+            # Gestion du fichier .env de production
+            if [ -f "$APP_DIR/.env" ]; then
+              echo "Production .env file already exists in application directory. Skipping import."
+            elif [ -f "$SHARED_DIR/.env" ]; then
+              echo "Importing production .env file from shared directory (first deploy)."
+              cp "$SHARED_DIR/.env" "$APP_DIR/.env"
             else
-              echo "ERROR: .env.production file not found in $SHARED_DIR"
+              echo "ERROR: Production .env file not found anywhere."
               exit 1
             fi
 
@@ -85,16 +86,16 @@ jobs:
             # Build application
             npm run build
 
-            # Start or reload PM2 app (Next.js production mode)
+            # ici on s'assure d'avoir ajouté un port lisible par pm2 dans .env*
             if pm2 describe "$APP_NAME" > /dev/null 2>&1; then
+              echo "Reloading Frontend and updating environment"
               pm2 reload "$APP_NAME" --update-env
             else
-              PORT=$PORT pm2 start npm --name "$APP_NAME" -- start -- -p $PORT
+              echo "Starting Frontend for the first time"
+              pm2 start npm --name "$APP_NAME" -- start
             fi
 
             # Persist PM2 state
             pm2 save
-
-            echo "Deployment successful on port 3001"
 
           ENDSSH
