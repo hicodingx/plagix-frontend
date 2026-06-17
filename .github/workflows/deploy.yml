@@ -86,14 +86,17 @@ jobs:
             # Build application
             npm run build
 
-            # ici on s'assure d'avoir ajouté un port lisible par pm2 dans .env*
+            echo "Restarting PM2 for Frontend (The old school way)"
             if pm2 describe "$APP_NAME" > /dev/null 2>&1; then
-              echo "Reloading Frontend and updating environment"
+              echo "Reloading Frontend"
               pm2 reload "$APP_NAME" --update-env
             else
               echo "Starting Frontend for the first time"
-              pm2 start npm --name "$APP_NAME" -- start
+              # Remplace 3002 par le port exact que tu as configuré dans CloudPanel (ex: 3001)
+              pm2 start npm --name "$APP_NAME" -- start -- -p 3002
             fi
+
+            pm2 save
 
             # Persist PM2 state
             pm2 save
