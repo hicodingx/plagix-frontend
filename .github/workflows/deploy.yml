@@ -53,6 +53,7 @@ jobs:
             REPO="git@github.com:hicodingx/plagix-frontend.git"
             BRANCH="main"
             APP_NAME="pole-g-plagix"
+            PORT=3001
 
             cd "$APP_DIR"
 
@@ -92,8 +93,7 @@ jobs:
               pm2 reload "$APP_NAME" --update-env
             else
               echo "Starting Frontend for the first time"
-              # Remplace 3002 par le port exact que tu as configuré dans CloudPanel (ex: 3001)
-              pm2 start npm --name "$APP_NAME" -- start -- -p 3002
+              pm2 start npm --name "$APP_NAME" -- start -- -p $PORT
             fi
 
             pm2 save
