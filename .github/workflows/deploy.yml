@@ -69,14 +69,14 @@ jobs:
               git clean -fd
             fi
 
-            # Gestion du fichier .env de production
-            if [ -f "$APP_DIR/.env" ]; then
-              echo "Production .env file already exists in application directory. Skipping import."
-            elif [ -f "$SHARED_DIR/.env" ]; then
-              echo "Importing production .env file from shared directory (first deploy)."
-              cp "$SHARED_DIR/.env" "$APP_DIR/.env"
+            # Gestion du fichier .env.production de production
+            if [ -f "$APP_DIR/.env.production" ]; then
+              echo "Production .env.production file already exists in application directory. Skipping import."
+            elif [ -f "$SHARED_DIR/.env.production" ]; then
+              echo "Importing production .env.production file from shared directory (first deploy)."
+              cp "$SHARED_DIR/.env" "$APP_DIR/.env.production"
             else
-              echo "ERROR: Production .env file not found anywhere."
+              echo "ERROR: Production .env.production file not found anywhere."
               exit 1
             fi
 
